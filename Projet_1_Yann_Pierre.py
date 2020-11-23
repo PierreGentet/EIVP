@@ -17,7 +17,7 @@ def convert():
     co2 = []
     sent_at = []
     res = [id,noise,temp,humidity,lum,co2,sent_at]
-    file = open('C:\Users\pierre.gentet\Desktop\COURS\ALGO\EIVP_projet_1\\EIVP_KM.csv',"r") #récupère le chemin d'accès
+    file = open(str(getcwd())+'\\EIVP_KM.csv',"r") #récupère le chemin d'accès
     reader = csv.reader(file, delimiter=';')
     for row in reader :
         lignes.append(row)
