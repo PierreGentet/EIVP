@@ -17,7 +17,7 @@ def convert():
     co2 = []
     sent_at = []
     res = [id,noise,temp,humidity,lum,co2,sent_at]
-    file = open(getcwd +'\\EIVP_KM.csv',"r") #récupère le chemin d'accès
+    file = open('C:\Users\pierre.gentet\Desktop\COURS\ALGO\EIVP_projet_1\\EIVP_KM.csv',"r") #récupère le chemin d'accès
     reader = csv.reader(file, delimiter=';')
     for row in reader :
         lignes.append(row)
@@ -32,11 +32,13 @@ def convert():
         sent_at.append(datetime.datetime.strptime(lignes[i][6][:-6],'%Y-%m-%d %H:%M:%S'))
     return res
 
+numdata = convert() # Dans tous les cas, on convertis les données dans une liste, c'est une variable globale du script.
+
 ##Calcul des intervalles d'indices de lignes et de dates entre deux dates données
 def interv(s,e):
     lign = []
     time = []
-    for i in range (len(numdata[6])):
+    for i in range (1335):
         if s<=numdata[6][i]<=e :
             lign.append(i)
             time.append(numdata[6][i])
@@ -275,9 +277,7 @@ def pvariance(var,s,e):
     else :
         print("Argument non valide. La variable doit figurer parmis les valeurs suivantes : 'bruit', 'température', 'humidité', 'luminosité', 'co2', 'humidex'. ")
 
-
-numdata = convert() # Dans tous les cas, on convertis les données dans une liste, c'est une variable globale du script.
-t0,tmax = numdata[6][0],numdata[6][len(numdata[6])-1] # On fixe l'intervalle de validité des calculs.
+t0,tmax = numdata[6][0],numdata[6][1334] # On fixe l'intervalle de validité des calculs.
 
 ##Implémentation de l'utilisation des dates.
 def ask_dates():
@@ -319,32 +319,68 @@ def display(var):
         plt.xlabel("t")
         plt.ylabel("Bruit en dB")
         plt.title("Courbe du bruit en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,[numdata[1][i] for i in ind])
+        plt.plot(dates,[numdata[1][i] for i in ind], label="capteur 1")
+        plt.plot(dates,[numdata[1][i+1335] for i in ind], label="capteur 2")
+        plt.plot(dates,[numdata[1][i+2682] for i in ind], label="capteur 3")
+        plt.plot(dates,[numdata[1][i+4028] for i in ind], label="capteur 4")
+        plt.plot(dates,[numdata[1][i+5372] for i in ind], label="capteur 5")
+        plt.legend()
+        plt.show()
     elif var == 'température':
         plt.xlabel("t")
-        plt.ylabel("Température en °C")
-        plt.title("Courbe de la température en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,[numdata[2][i] for i in ind])
+        plt.ylabel("Temperature en degre celcius")
+        plt.title("Courbe de la temperature en fonction du temps du "+str(s)+" au "+str(e))
+        plt.plot(dates,[numdata[2][i] for i in ind], label="capteur 1")
+        plt.plot(dates,[numdata[2][i+1335] for i in ind], label="capteur 2")
+        plt.plot(dates,[numdata[2][i+2682] for i in ind], label="capteur 3")
+        plt.plot(dates,[numdata[2][i+4028] for i in ind], label="capteur 4")
+        plt.plot(dates,[numdata[2][i+5372] for i in ind], label="capteur 5")
+        plt.legend()
+        plt.show()
     elif var == 'humidité' :
         plt.xlabel("t")
-        plt.ylabel("Taux d'humidité (%)")
-        plt.title("Courbe du taux d'humidité en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,[numdata[3][i] for i in ind])
+        plt.ylabel("Taux d'humidite")
+        plt.title("Courbe du taux d humidite en fonction du temps du "+str(s)+" au "+str(e))
+        plt.plot(dates,[numdata[3][i] for i in ind], label="capteur 1")
+        plt.plot(dates,[numdata[3][i+1335] for i in ind], label="capteur 2")
+        plt.plot(dates,[numdata[3][i+2682] for i in ind], label="capteur 3")
+        plt.plot(dates,[numdata[3][i+4028] for i in ind], label="capteur 4")
+        plt.plot(dates,[numdata[3][i+5372] for i in ind], label="capteur 5")
+        plt.legend()
+        plt.show()
     elif var == 'luminosité':
         plt.xlabel("t")
-        plt.ylabel("Luminosité en lux")
-        plt.title("Courbe de la luminosité en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,[numdata[4][i] for i in ind])
+        plt.ylabel("Luminosite en lux")
+        plt.title("Courbe de la luminosite en fonction du temps du "+str(s)+" au "+str(e))
+        plt.plot(dates,[numdata[4][i] for i in ind], label="capteur 1")
+        plt.plot(dates,[numdata[4][i+1335] for i in ind], label="capteur 2")
+        plt.plot(dates,[numdata[4][i+2682] for i in ind], label="capteur 3")
+        plt.plot(dates,[numdata[4][i+4028] for i in ind], label="capteur 4")
+        plt.plot(dates,[numdata[4][i+5372] for i in ind], label="capteur 5")
+        plt.legend()
+        plt.show()
     elif var == 'co2':
         plt.xlabel("t")
-        plt.ylabel("Taux de CO_2 (ppm)")
-        plt.title("Courbe du taux de CO_2 en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,[numdata[4][i] for i in ind])
+        plt.ylabel("Taux de CO2 en ppm")
+        plt.title("Courbe du taux de CO2 en fonction du temps du "+str(s)+" au "+str(e))
+        plt.plot(dates,[numdata[5][i] for i in ind], label="capteur 1")
+        plt.plot(dates,[numdata[5][i+1335] for i in ind], label="capteur 2")
+        plt.plot(dates,[numdata[5][i+2682] for i in ind], label="capteur 3")
+        plt.plot(dates,[numdata[5][i+4028] for i in ind], label="capteur 4")
+        plt.plot(dates,[numdata[5][i+5372] for i in ind], label="capteur 5")
+        plt.legend()
+        plt.show()
     elif var == 'humidex':
         plt.xlabel("t")
         plt.ylabel("Indice humidex")
-        plt.title("Courbe de l'indice humidex en fonction du temps du "+str(s)+" au "+str(e))
-        plt.plot(dates,humidex([numdata[2][i] for i in ind],[numdata[3][i] for i in ind]))
+        plt.title("Courbe de l indice humidex en fonction du temps du "+str(s)+" au "+str(e))
+        plt.plot(dates,humidex([numdata[2][i] for i in ind],[numdata[3][i] for i in ind]), label="capteur 1")
+        plt.plot(dates,humidex([numdata[2][i+1335] for i in ind],[numdata[3][i+1335] for i in ind]), label="capteur 2")
+        plt.plot(dates,humidex([numdata[2][i+2682] for i in ind],[numdata[3][i+2682] for i in ind]), label="capteur 3")
+        plt.plot(dates,humidex([numdata[2][i+4028] for i in ind],[numdata[3][i+4028] for i in ind]), label="capteur 4")
+        plt.plot(dates,humidex([numdata[2][i+5372] for i in ind],[numdata[3][i+5372] for i in ind]), label="capteur 5")
+        plt.legend()
+        plt.show()
     else :
         print("Argument non valide. La variable doit figurer parmis les valeurs suivantes : 'bruit', 'température', 'humidité', 'luminosité', 'co2', 'humidex'. ")
 
