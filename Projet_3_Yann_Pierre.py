@@ -219,5 +219,5 @@ def correlation():
     return "le coefficient de correlation linéaire entre "+noms[var1]+" et "+noms[var2]+" est de "+str(cor)+"."
 
 def test():
-    return 2
+    return 4
 
