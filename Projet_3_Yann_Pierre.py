@@ -218,4 +218,6 @@ def correlation():
     cor = covariance(var1,cap1,var2,cap2,s,e)/(math.sqrt(pvariance(var1,cap1,s,e))*math.sqrt(pvariance(var2,cap2,s,e)))
     return "le coefficient de correlation linéaire entre "+noms[var1]+" et "+noms[var2]+" est de "+str(cor)+"."
 
+def test():
+    return 2
 
