@@ -194,6 +194,7 @@ def effacer():
 
 def covariance(var1,cap1,var2,cap2,s,e):
     tempo = 0
+    ind,dates = interv(s,e,cap1)
     for i in ind :
         tempo += numdata[var1][cap1][i]*numdata[var2][cap2][i]
     return (tempo/len(ind)-moyenne(var1,cap1,s,e)*moyenne(var2,cap2,s,e))
