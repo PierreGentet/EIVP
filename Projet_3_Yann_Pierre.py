@@ -100,14 +100,13 @@ def ask_dates(c):
 
             else:
                 return start,end
-
 def ask_cap():
-    cap=input("Capteur à utiliser :")
-    if cap not in [1,2,3,4,5,6]:
+    cap=int(input("Capteur à utiliser :"))
+    if cap in [1,2,3,4,5,6]:
+        return cap
+    else :
         print("Le numéro du capteur est invalide.")
         cap = ask_cap()
-    else :
-        return cap
 
 def ask_var():
     var=input("Variable à utiliser : ")
@@ -222,8 +221,6 @@ def correlation():
 def anomalie():
     var = ask_var()
     cap = ask_cap()
-    s,e=ask_dates(cap)
-    ind,dates=interv(s,e,cap)
     numdata1=numdata.copy()
     anomalies=[] #création de liste vide pour y mettre les anomalies
     moment_anomalies=[] #création de liste vide pour y mettre le moment des anomalies
@@ -268,6 +265,8 @@ def anomalie():
     print ("données correctes", numdata1[var][cap])
     print ("données annormales", anomalies)
     print ("moment où ces données sont annormales", moment_anomalies)
+    s,e=ask_dates(cap)
+    ind,dates=interv(s,e,cap)
     plt.xlabel("t")
     plt.ylabel(noms[var])
     plt.title("Courbe de "+ noms[var] + "en fonction du temps du "+str(s)+" au "+str(e))
