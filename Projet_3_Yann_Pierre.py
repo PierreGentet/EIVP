@@ -199,7 +199,7 @@ def covariance(var1,cap1,var2,cap2,s,e):
         tempo += numdata[var1][cap1][i]*numdata[var2][cap2][i]
     return (tempo/len(ind)-moyenne(var1,cap1,s,e)*moyenne(var2,cap2,s,e))
 
-noms = ["","bruit","température","humidité","luminosité","co2","humidex"]
+noms = ["","bruit","température","humidité","luminosité","co2","","humidex"]
 
 def correlation():
     print("Premières valeurs :")
@@ -282,7 +282,7 @@ def anomalie():
     print ("moment où ces données sont annormales", moment_anomalies)
     plt.xlabel("t")
     plt.ylabel(noms[var])
-    plt.title("Courbe de "+ str(nom_var(var)) + "en fonction du temps du "+str(s)+" au "+str(e))
+    plt.title("Courbe de "+ noms[var] + "en fonction du temps du "+str(s)+" au "+str(e))
     plt.scatter(dates,numdata[var][cap], color='k',s=3.,label="capteur "+str(cap))
     plt.scatter(moment_anomalies,anomalies, edgecolors='r',
             facecolors='none', s =5.)
