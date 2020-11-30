@@ -217,19 +217,7 @@ def correlation():
     plt.plot([numdata[var1][cap1][i] for i in ind],[numdata[var2][cap2][j] for j in ind],'+')
     cor = covariance(var1,cap1,var2,cap2,s,e)/(math.sqrt(pvariance(var1,cap1,s,e))*math.sqrt(pvariance(var2,cap2,s,e)))
     return "le coefficient de correlation linéaire entre "+noms[var1]+" et "+noms[var2]+" est de "+str(cor)+"."
-def nom_var(c):
-    if c == 1:
-        return 'bruit'
-    elif c == 2:
-        return 'température'
-    elif c == 3 :
-        return 'humidité'
-    elif c == 4:
-        return 'luminosité'
-    elif c == 5:
-        return 'co2'
-    elif c == 7:
-        return 'indice humidex'
+
     
 def anomalie():
     var = ask_var()
