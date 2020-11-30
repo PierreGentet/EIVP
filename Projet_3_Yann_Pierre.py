@@ -217,7 +217,20 @@ def correlation():
     plt.plot([numdata[var1][cap1][i] for i in ind],[numdata[var2][cap2][j] for j in ind],'+')
     cor = covariance(var1,cap1,var2,cap2,s,e)/(math.sqrt(pvariance(var1,cap1,s,e))*math.sqrt(pvariance(var2,cap2,s,e)))
     return "le coefficient de correlation linéaire entre "+noms[var1]+" et "+noms[var2]+" est de "+str(cor)+"."
-
+def nom_var(c):
+    if c == 1:
+        return 'bruit'
+    elif c == 2:
+        return 'température'
+    elif c == 3 :
+        return 'humidité'
+    elif c == 4:
+        return 'luminosité'
+    elif c == 5:
+        return 'co2'
+    elif c == 7:
+        return 'indice humidex'
+    
 def anomalie():
     var = ask_var()
     cap = ask_cap()
@@ -246,8 +259,7 @@ def anomalie():
                 i=i+1
                 a=a+1
         if a==len(numdata1[var][cap]):
-            print("aucune anomalie")
-        
+            print("aucune anomalie")     
     else:
         while i < int(len(numdata[var][cap])-1):
             mx = max([numdata[var][cap][i-1],numdata[var][cap][i+1]])
@@ -270,7 +282,7 @@ def anomalie():
     print ("moment où ces données sont annormales", moment_anomalies)
     plt.xlabel("t")
     plt.ylabel(noms[var])
-    plt.title("Courbe de l indice humidex en fonction du temps du "+str(s)+" au "+str(e))
+    plt.title("Courbe de "+ str(nom_var(var)) + "en fonction du temps du "+str(s)+" au "+str(e))
     plt.scatter(dates,numdata[var][cap], color='k',s=3.,label="capteur "+str(cap))
     plt.scatter(moment_anomalies,anomalies, edgecolors='r',
             facecolors='none', s =5.)
