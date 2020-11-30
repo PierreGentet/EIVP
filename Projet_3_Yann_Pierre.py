@@ -222,13 +222,13 @@ def correlation():
 def anomalie():
     var = ask_var()
     cap = ask_cap()
-    numdata1=numdata.copy()
+    numdata1=numdata.copy() #on effectue une copie de la liste "originale" numdata pour lui retirer les valeurs anormales
     anomalies=[] #création de liste vide pour y mettre les anomalies
     moment_anomalies=[] #création de liste vide pour y mettre le moment des anomalies
     i=1 #initialisation de i à 1 pour commencer à analyser la deuxième donnée, 
     # on considère la première correcte
     a=1 #le compteur "a" compte le nombre de valeur correcte
-    b=0 #le compteur "b" évite le décalage anomalie-moment_de_l'anomalie
+    b=0 #le compteur "b" évite le décalage entres anomalie et moment_de_l'anomalie
     if var in [1,2,3,5,6]:
         ecart_relatif=input("Ecart relatif entre 2 valeurs pour considérer que la valeur est anormale (en pourcentage):")
         while i < int(len(numdata[var][cap])):
