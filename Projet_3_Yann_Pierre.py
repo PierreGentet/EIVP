@@ -268,4 +268,12 @@ def anomalie():
     print ("données correctes", numdata1[var][cap])
     print ("données annormales", anomalies)
     print ("moment où ces données sont annormales", moment_anomalies)
+    plt.xlabel("t")
+    plt.ylabel(noms[var])
+    plt.title("Courbe de l indice humidex en fonction du temps du "+str(s)+" au "+str(e))
+    plt.scatter(dates,numdata[var][cap], color='k',s=3.,label="capteur "+str(cap))
+    plt.scatter(moment_anomalies,anomalies, edgecolors='r',
+            facecolors='none', s =5.)
+    plt.legend(loc='upperleft')
+    plt.show()
 
