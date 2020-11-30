@@ -227,15 +227,15 @@ def anomalie():
     moment_anomalies=[] #création de liste vide pour y mettre le moment des anomalies
     i=1 #initialisation de i à 1 pour commencer à analyser la deuxième donnée, 
     # on considère la première correcte
-    a=1 #le compteur a compte le nombre de valeur correcte
-    b=0
+    a=1 #le compteur "a" compte le nombre de valeur correcte
+    b=0 #le compteur "b" évite le décalage anomalie-moment_de_l'anomalie
     if var in [1,2,3,5,6]:
         ecart_relatif=input("Ecart relatif entre 2 valeurs pour considérer que la valeur est anormale (en pourcentage):")
         while i < int(len(numdata[var][cap])):
             if (abs(numdata[var][cap][i] - numdata[var][cap][i-1])/(numdata[var][cap][i-1]+0.0001))> float(ecart_relatif): 
                 #on vérifie que l'écart relatif entre 2 valeurs consécutives est inférieur à l'écart relatif
                 print("anomalie trouvée à :", numdata[6][cap][i+b] ) #on affiche le moment des anomalies
-                anomalies.append(numdata[var][cap][i]) #on  affecte la valeurs de chaque anomalie 
+                anomalies.append(numdata[var][cap][i]) #on  affecte la valeur de chaque anomalie 
                 #dans la liste "anomalies"
                 moment_anomalies.append(numdata[6][cap][i+b])
                 del numdata1[var][cap][i] #on supprime les valeurs des anomalies dans les données
@@ -264,8 +264,8 @@ def anomalie():
         if a==len(numdata1[var][cap]):
             print("aucune anomalie")
     print ("données correctes", numdata1[var][cap])
-    print ("données annormales", anomalies)
-    print ("moment où ces données sont annormales", moment_anomalies)
+    print ("données anormales", anomalies)
+    print ("moment où ces données sont anormales", moment_anomalies)
     s,e=ask_dates(cap)
     ind,dates=interv(s,e,cap)
     plt.xlabel("t")
