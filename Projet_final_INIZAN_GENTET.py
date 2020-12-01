@@ -281,4 +281,29 @@ def anomalie():
             facecolors='none', s =5.)
     plt.legend(loc='upperleft')
     plt.show()
-
+    
+def calculate_median(l):
+    L = sorted(copy.deepcopy(l))
+    n = len(L)
+    if n < 1:
+        return None
+    if n % 2 == 0 :
+        return ( L[(n-1)/2] + L[(n+1)/2] ) / 2.0
+    else:
+        return L[(n-1)/2]
+    
+def horaires():
+    bruitm=[(numdata[1][1][i]+numdata[1][2][i]+numdata[1][3][i]+numdata[1][4][i]+numdata[1][5][i]+numdata[1][6][i])/6 for i in range(len(numdata[1][1]))]
+    lumm=[(numdata[4][1][i]+numdata[4][2][i]+numdata[4][3][i]+numdata[4][4][i]+numdata[4][5][i]+numdata[4][6][i])/6 for i in range(len(numdata[4][1]))]
+    co2m=[(numdata[5][1][i]+numdata[5][2][i]+numdata[5][3][i]+numdata[5][4][i]+numdata[5][5][i]+numdata[5][6][i])/6 for i in range(len(numdata[1][1]))]
+    medbruit=calculate_median(bruitm)
+    medlum=calculate_median(lumm)
+    medco2=calculate_median(co2m)
+    for i in range(len(bruitm)-2):
+        if bruitm[i]<bruitm[i+2] and bruitm[i+2]>medbruit and lumm[i]<lumm[i+2] and lumm[i+2]>medlum and co2m[i]<co2m[i+2] and co2m[i+2]>medco2 :
+            print("début de journée à environ " + str(numdata[6][1][i+2])
+        elif bruitm[i]>bruitm[i+2] and bruitm[i+2]<medbruit and lumm[i]>lumm[i+2] and lumm[i+2]<medlum and co2m[i]>co2m[i+2] and co2m[i+2]<medco2 :
+            print("fin de journée à environ " + str(numdata[6][1][i+2])
+        else :
+            print("pas d'horaires détectés")
+                
