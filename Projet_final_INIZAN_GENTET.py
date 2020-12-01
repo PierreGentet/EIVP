@@ -7,6 +7,7 @@ import copy
 import datetime
 
 def humidex(temp,humidity):
+    """ Fonction qui prend en argument les listes de température et d'humidité supposées de même taille et renvoie la liste des indices humidex calculés pour chacune des valeurs"""
     a = 17.27
     b = 237.7
     res = []
@@ -19,8 +20,9 @@ def humidex(temp,humidity):
 
 ##Convertion du csv en données exploitables
 def convert():
+    """fonction impure qui converti les données et les renvoie sous forme de matrice tridimensionnelle"""
     lignes = [] #id des lignes
-    id = [[],[],[],[],[],[],[]]
+    ide = [[],[],[],[],[],[],[]] #création de listes vides pour que variable[i] soit la liste des données de variable pour le ième capteur
     noise = [[],[],[],[],[],[],[]]
     temp = [[],[],[],[],[],[],[]]
     humidity = [[],[],[],[],[],[],[]]
@@ -30,29 +32,29 @@ def convert():
     humi = [[],[],[],[],[],[],[]]
     res = [id,noise,temp,humidity,lum,co2,sent_at,humi]
     file = open(str(getcwd())+'\EIVP_KM.csv',"r") #récupère le chemin d'accès
-    reader = csv.reader(file, delimiter=';')
+    reader = csv.reader(file, delimiter=';') #création du curseur de lecture
     for row in reader :
-        lignes.append(row)
+        lignes.append(row)   #On récupère le csv sous forme d'une liste de liste telle que lignes[i][j] soit la valeur de la case ij
     file.close()
     for i in range(1,len(lignes)):
-        id[int(lignes[i][1])].append(i)
-        noise[int(lignes[i][1])].append(float(lignes[i][2]))
+        ide[int(lignes[i][1])].append(i)
+        noise[int(lignes[i][1])].append(float(lignes[i][2])) # pour chaque valeur, on récupère le numéro de son capteur pour l'injecter dans la bonne liste
         temp[int(lignes[i][1])].append(float(lignes[i][3]))
         humidity[int(lignes[i][1])].append(float(lignes[i][4]))
         lum[int(lignes[i][1])].append(int(lignes[i][5]))
         co2[int(lignes[i][1])].append(int(lignes[i][6]))
-        sent_at[int(lignes[i][1])].append(datetime.datetime.strptime(lignes[i][7][:-6],'%Y-%m-%d %H:%M:%S'))
-    for j in range(1,7):
+        sent_at[int(lignes[i][1])].append(datetime.datetime.strptime(lignes[i][7][:-6],'%Y-%m-%d %H:%M:%S')) #On enlève le fuseau horaire aux dates et on les convertie
+    for j in range(1,7): #calcul de l'indice humidex
         for k in range(len(sent_at[j])):
             humi[j].append(humidex(temp[j],humidity[j]))
     return res
 
-numdata = convert()
+numdata = convert() # La matrice numérique des données est une variable globale 
 
 def interv(s,e,c):
+    """fonction qui prend en argument un numéro de capteur c et des dates de départ s et de fin e supposées ordonnées pour un intervalle d'écantillonage du capteur c"""
     lign = []
     time = []
-    var = ask_var()
     for i in range(len(numdata[var][c])):
         if s<=numdata[6][c][i]<=e :
             lign.append(i)
@@ -63,7 +65,8 @@ def interv(s,e,c):
 
 ##Implémentation de l'utilisation des dates.
 def ask_dates(c):
-    t0,tmax=numdata[6][c][0],numdata[6][c][-1]
+    """ fonction qui prend en argument un numéro de capteur supposé correcte et qui demande à l'utilisateur un intervalle d'échantillonage et le renvoie s'il est correcte"""
+    t0,tmax=numdata[6][c][0],umdata[6][c][-1]
     start=input("Date de début d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
     while type(start)!= datetime.datetime:
         try :
@@ -83,6 +86,7 @@ def ask_dates(c):
         return start,end
  
 def ask_cap():
+    """fonction qui demande à l'utilisateur un numéro de capteur et qui le renvoie s'il est correcte"""
     cap=int(input("Capteur à utiliser :"))
     if cap in [1,2,3,4,5,6]:
         return cap
@@ -91,6 +95,7 @@ def ask_cap():
         cap = ask_cap()
 
 def ask_var():
+    """fonction qui demande à l'utilisateur un nom de variable et qui renvoie, s'il est correcte, l'indice qui lui est associé dans la table de données numériséé"""
     var=str(input("Variable à utiliser : "))
     if var == 'bruit':
         return 1
@@ -106,6 +111,8 @@ def ask_var():
         return 6
 
 def minimum(var,cap,s,e):
+    """fonction qui prend en argument un numéro de variable, un numéro de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la valeur minimale que prend cette variable sur cet intervalle pour ce capteur"""
     ind,dates = interv(s,e,cap)
     res = numdata[var][0]
     for i in ind:
@@ -114,6 +121,8 @@ def minimum(var,cap,s,e):
     return("Minimum = "+str(res))
 
 def maximum(var,cap,s,e):
+     """fonction qui prend en argument un numéro de variable, un numéro de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la valeur maximale que prend cette variable sur cet intervalle pour ce capteur"""
     ind,dates = interv(s,e,cap)
     res = numdata[var][0]
     for i in ind:
@@ -122,6 +131,8 @@ def maximum(var,cap,s,e):
     return("Maximum = "+str(res))
 
 def moyenne(var,cap,s,e):
+     """fonction qui prend en argument un numéro de variable, un numéro de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la moyenne des valeurs que prend cette variable sur cet intervalle pour ce capteur"""
     ind,dates = interv(s,e,cap)
     res = 0
     for i in ind:
@@ -129,6 +140,8 @@ def moyenne(var,cap,s,e):
     return("Moyenne = "+str(res/len(numdata[var][i])))
 
 def mediane(var,cap,s,e):
+     """fonction qui prend en argument un numéro de variable, un numéro de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la valeur médiane pour cette variable sur cet intervalle pour ce capteur"""
     ind,dates = interv(s,e,cap)
     L=copy.deepcopy([numdata[var][cap][i] for i in ind])
     L.sort()
@@ -139,6 +152,8 @@ def mediane(var,cap,s,e):
         return L[n//2+1]
 
 def pvariance(var,cap,s,e):
+     """fonction qui prend en argument un numéro de variable, un numéro de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la valeur de la variance pour cette variable sur cet intervalle pour ce capteur"""
     ind,dates = interv(s,e,cap)
     tempo=0
     l=[numdata[var][cap][j] for j in ind]
@@ -149,6 +164,7 @@ def pvariance(var,cap,s,e):
 
 ##Affichages des données statistiques d'une variable.
 def displayStats():
+    """fonction qui affiche les valeurs statistique pour les données demandées par l'utilisateur via les fonctions d'interface précédentes"""
     var = ask_var()
     cap = ask_cap()
     s,e=ask_dates(cap) #A chaque fois, on utilise la fonction ask_dates pour limiter les calculs à un intervalle.
@@ -158,33 +174,38 @@ def displayStats():
     med=mediane(var,cap,s,e)
     var=pvariance(var,cap,s,e)
     print("min = "+str(m)+', max = '+str(M)+", moyenne = "+str(av)+", médiane = "+str(med)+", variance = "+str(var)+", écart-type = "+str(math.sqrt(var))+'.')
-    return(m,M,av,med,var,math.sqrt(var))
+    return(m,M,av,med,var,math.sqrt(var)) #on renvoie quand même les valeurs au cas où on voudrait les utiliser dans une autre fonction
 
 def display():
+    """fonction qui affiche le graphe des données demandées par l'utilisateur via les fonctions d'interface précédentes"""
     var = ask_var()
     cap = ask_cap()
     s,e=ask_dates(cap)
     ind,dates=interv(s,e,cap)
     plt.xlabel("t")
     plt.ylabel(var)
-    plt.title("Courbe de l indice humidex en fonction du temps du "+str(s)+" au "+str(e))
+    plt.title("Courbe de "+noms[var]+" en fonction du temps du "+str(s)+" au "+str(e))
     plt.scatter(dates,[numdata[var][cap][k] for k in ind], label="capteur "+str(cap))
     plt.legend(loc='upperleft')
     plt.show()
 
 def effacer():
+    """fonction impure qui 'nettoie' l'interface de pyplot"""
     plt.draw()
 
 def covariance(var1,cap1,var2,cap2,s,e):
+    """fonction qui prend en argument deux numéros de variable, deux numéros de capteur, une date de début et une date de fin, tous supposés correcte
+    et qui renvoie la valeur de la covariance pour ces variables sur cet intervalle pour ces capteur"""
     tempo = 0
     ind,dates = interv(s,e,cap1)
     for i in ind :
         tempo += numdata[var1][cap1][i]*numdata[var2][cap2][i]
     return (tempo/len(ind)-moyenne(var1,cap1,s,e)*moyenne(var2,cap2,s,e))
 
-noms = ["","bruit","température","humidité","luminosité","co2","","humidex"]
+noms = ["","bruit","température","humidité","luminosité","co2","","humidex"] # création d'une liste qui permet de récupérer une chaine de caractère à partir du numéro de variable
 
 def correlation():
+    """fonction qui affiche le graphe et renvoie le coefficient de corrélation linéaire entre deux variables fournies par l'utilisateur via l'interface codé par les fonction précédentes"""
     print("Premières valeurs :")
     var1=ask_var()
     cap1=ask_cap()
@@ -194,15 +215,16 @@ def correlation():
     s,e=ask_dates(cap1)
     ind,dates=interv(s,e,cap1)
     plt.draw()
-    plt.xlabel(noms[var1])
-    plt.ylabel(noms[var2])
-    plt.title("Correlation entre "+noms[var1]+" et "+noms[var2]+".")
-    plt.plot([numdata[var1][cap1][i] for i in ind],[numdata[var2][cap2][j] for j in ind],'+')
+    plt.xlabel(noms[var1]+"fourni(e) par le capteur"+cap1)
+    plt.ylabel(noms[var2]+"fourni(e) par le capteur"+cap2)
+    plt.title(noms[var2]+" fonction de "+noms[var1])
+    plt.scatter([numdata[var1][cap1][i] for i in ind],[numdata[var2][cap2][j] for j in ind],'+')
     cor = covariance(var1,cap1,var2,cap2,s,e)/(math.sqrt(pvariance(var1,cap1,s,e))*math.sqrt(pvariance(var2,cap2,s,e)))
     return "le coefficient de correlation linéaire entre "+noms[var1]+" et "+noms[var2]+" est de "+str(cor)+"."
 
     
 def anomalie():
+    """fonction qui renvoie la liste de valeurs considérées comme des anomalies et affiche le graphe de la valeur choisie en entourant en rouge les outliers."""
     var = ask_var()
     cap = ask_cap()
     numdata1=numdata.copy() #on effectue une copie de la liste "originale" numdata pour lui retirer les valeurs anormales
