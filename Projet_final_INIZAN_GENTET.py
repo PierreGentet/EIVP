@@ -52,6 +52,7 @@ numdata = convert()
 def interv(s,e,c):
     lign = []
     time = []
+    var = ask_var()
     for i in range(len(numdata[var][c])):
         if s<=numdata[6][c][i]<=e :
             lign.append(i)
@@ -62,7 +63,7 @@ def interv(s,e,c):
 
 ##Implémentation de l'utilisation des dates.
 def ask_dates(c):
-    t0,tmax=numdata[6][c][0],umdata[6][c][-1]
+    t0,tmax=numdata[6][c][0],numdata[6][c][-1]
     start=input("Date de début d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
     while type(start)!= datetime.datetime:
         try :
