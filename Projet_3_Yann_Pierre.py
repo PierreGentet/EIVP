@@ -52,10 +52,10 @@ numdata = convert()
 def interv(s,e,c):
     lign = []
     time = []
-    for i in range(len(numdata[c])):
+    for i in range(len(numdata[var][c])):
         if s<=numdata[6][c][i]<=e :
             lign.append(i)
-            time.append(numdata[6][c])
+            time.append(numdata[6][c][i])
     return lign,time
 
 
@@ -167,7 +167,8 @@ def display():
     plt.xlabel("t")
     plt.ylabel(var)
     plt.title("Courbe de l indice humidex en fonction du temps du "+str(s)+" au "+str(e))
-    plt.plot(dates,numdata[var][cap], label="capteur "+str(cap))
+    plt.scatter(dates,[numdata[var][cap][k] for k in ind], label="capteur "+str(cap))
+    plt.legend(loc='upperleft')
     plt.show()
 
 def effacer():
