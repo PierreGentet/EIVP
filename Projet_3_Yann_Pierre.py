@@ -59,47 +59,28 @@ def interv(s,e,c):
     return lign,time
 
 
-t0,tmax,t06,tmax6 = numdata[6][1][0],numdata[6][1][-1],numdata[6][6][0],numdata[6][6][-1]
 
 ##Implémentation de l'utilisation des dates.
 def ask_dates(c):
-        if c == 6 :
-            start=input("Date de début d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
-            while type(start)!= datetime.datetime:
-                try :
-                    datetime.datetime.strptime(start,'%Y-%m-%d %H:%M:%S')
-                except ValueError:
-                    start=input("Erreur, date de début d'échantillonage(format AAAA-MM-JJ HH:MM:SS) : ")
-            end=input("Date de fin d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
-            while type(end)!= datetime.datetime:
-                try :
-                    datetime.datetime.strptime(end,'%Y-%m-%d %H:%M:%S')
-                except ValueError:
-                    end=input("Erreur, date de début (format AAAA-MM-JJ HH:MM:SS) : ")
-            if not t06<=start<=end<=tmax6: # Vérification de la validité de l'intervalle.
-                print("Intervalle non valide")
-                start,end = ask_dates()
-            else :
-                return start,end
-        else :
-            start=input("Date de début d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
-            while type(start)!= datetime.datetime:
-                try :
-                    datetime.datetime.strptime(start,'%Y-%m-%d %H:%M:%S')
-                except ValueError:
-                    start=input("Erreur, date de début d'échantillonage(format AAAA-MM-JJ HH:MM:SS) : ")
-            end=input("Date de fin d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
-            while type(end)!= datetime.datetime:
-                try :
-                    datetime.datetime.strptime(end,'%Y-%m-%d %H:%M:%S')
-                except ValueError:
-                    end=input("Erreur, date de début (format AAAA-MM-JJ HH:MM:SS) : ")
-            if not t0<=start<=end<=tmax: # Vérification de la validité de l'intervalle.
-                print("Intervalle non valide")
-                start,end = ask_dates(c)
-
-            else:
-                return start,end
+    t0,tmax=numdata[6][c][0],umdata[6][c][-1]
+    start=input("Date de début d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
+    while type(start)!= datetime.datetime:
+        try :
+            datetime.datetime.strptime(start,'%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            start=input("Erreur, date de début d'échantillonage(format AAAA-MM-JJ HH:MM:SS) : ")
+    end=input("Date de fin d'échantillonage (format AAAA-MM-JJ HH:MM:SS) : ")
+    while type(end)!= datetime.datetime:
+        try :
+            datetime.datetime.strptime(end,'%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            end=input("Erreur, date de début (format AAAA-MM-JJ HH:MM:SS) : ")
+    if not t0<=start<=end<=tmax: # Vérification de la validité de l'intervalle.
+        print("Intervalle non valide")
+        start,end = ask_dates(c)
+    else:
+        return start,end
+ 
 def ask_cap():
     cap=int(input("Capteur à utiliser :"))
     if cap in [1,2,3,4,5,6]:
