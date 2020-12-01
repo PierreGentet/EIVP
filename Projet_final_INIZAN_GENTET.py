@@ -299,10 +299,10 @@ def horaires():
     medbruit=calculate_median(bruitm)
     medlum=calculate_median(lumm)
     medco2=calculate_median(co2m)
-    for i in range(len(bruitm)-2):
-        if bruitm[i]<bruitm[i+2] and bruitm[i+2]>medbruit and lumm[i]<lumm[i+2] and lumm[i+2]>medlum and co2m[i]<co2m[i+2] and co2m[i+2]>medco2 :
+    for i in range(len(bruitm)-3):
+        if bruitm[i]<medbruit<=bruitm[i+3] and lumm[i]<medlum<=lumm[i+3] and co2m[i]<medco2<=co2m[i+3]:
             print("début de journée à environ " + str(numdata[6][1][i+2])
-        elif bruitm[i]>bruitm[i+2] and bruitm[i+2]<medbruit and lumm[i]>lumm[i+2] and lumm[i+2]<medlum and co2m[i]>co2m[i+2] and co2m[i+2]<medco2 :
+        elif bruitm[i]>medbruit>=bruitm[i+3] and lumm[i]>medlum>=lumm[i+3] and co2m[i]>medco2>=co2m[i+3]:
             print("fin de journée à environ " + str(numdata[6][1][i+2])
         else :
             print("pas d'horaires détectés")
