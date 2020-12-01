@@ -90,7 +90,7 @@ def ask_cap():
         cap = ask_cap()
 
 def ask_var():
-    var=input("Variable à utiliser : ")
+    var=str(input("Variable à utiliser : "))
     if var == 'bruit':
         return 1
     elif var == 'température':
